@@ -12,8 +12,8 @@
 #include "PQTree.h"
 
 //warning to ignore
-#pragma GCC diagnostic ignored "-Wpadded"
-#pragma GCC diagnostic ignored "-Wc++11-extensions"
+//#pragma GCC diagnostic ignored "-Wpadded"
+//#pragma GCC diagnostic ignored "-Wc++11-extensions"
 
 static bool follow = false; //use this to find bugs. prints out function names when a function is executed
 static bool debug = false;
@@ -286,7 +286,7 @@ PQnode* PQTree::find_full_subroot()
     
     std::list<PQnode*> parents; 
     
-    for(auto k = fulls.begin(); k!=fulls.end(); ++k)
+    for(std::list<Leaf*>::iterator k = fulls.begin(); k!=fulls.end(); ++k)
     {
         PQnode *p = dynamic_cast<PQnode*>((*k)->get_parent());
         //add it into the partials list by inserting it at the correct position based on decreasing depth
@@ -525,7 +525,7 @@ bool PQTree::equivalent(PQTree &other)
 
 void PQTree::print_leaflist(bool mark)
 {
-    for(auto it=leaflist.begin(); it!=leaflist.end(); ++it)
+    for(std::list<Leaf*>::iterator it=leaflist.begin(); it!=leaflist.end(); ++it)
     {
         if(*it==NULL)
         {

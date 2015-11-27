@@ -4,9 +4,9 @@
 #define __PQNode_H
 
 //warning to ignore
-#pragma GCC diagnostic ignored "-Wpadded"
-#pragma GCC diagnostic ignored "-Wc++11-extensions"
-#pragma GCC diagnostic ignored "-Wc++98-compat"
+//#pragma GCC diagnostic ignored "-Wpadded"
+//#pragma GCC diagnostic ignored "-Wc++11-extensions"
+//#pragma GCC diagnostic ignored "-Wc++98-compat"
 
 //dependencies
 #include "Node.h"

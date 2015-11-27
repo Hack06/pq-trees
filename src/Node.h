@@ -3,10 +3,10 @@
 #define __NODE_H
 
 //warning to ignore
-#pragma GCC diagnostic ignored "-Wpadded"
-#pragma GCC diagnostic ignored "-Wc++11-extensions"
-#pragma GCC diagnostic ignored "-Wc++98-compat"
-#pragma GCC diagnostic ignored "-Wc++98-compat-pedantic"
+//#pragma GCC diagnostic ignored "-Wpadded"
+//#pragma GCC diagnostic ignored "-Wc++11-extensions"
+//#pragma GCC diagnostic ignored "-Wc++98-compat"
+//#pragma GCC diagnostic ignored "-Wc++98-compat-pedantic"
 
 //dependencies
 #include <iostream>
@@ -14,6 +14,16 @@
 #include <list>
 #include <string>
 #include <vector>
+
+//fix for to_string function
+#include <sstream>
+template <typename T>
+std::string to_string(T value)
+{
+    std::ostringstream os ;
+    os << value ;
+    return os.str() ;
+}
 
 enum nodetype {pnode , qnode, leafnode};
 enum marking {empty, partial, full};

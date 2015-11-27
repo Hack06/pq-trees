@@ -3,7 +3,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "Node.h"
-
+#include <string>
+#include <sstream>
 
 //this will be the parent class for P-nodes, C-nodes and Q-nodes
 //on the reduction step will ensure that we have a valid PQ tree
@@ -98,7 +99,7 @@ std::string Node::convert_to_gml(int &id)
 {
     ++id;
     std::string result = "node [\nid ";
-    result += std::to_string(id);
+    result += to_string(id);
     result += "\ngraphics [\nw 20.0\n";
     result += "h 20.0\n]\n";
     return result;

@@ -7,14 +7,15 @@ XSRC = src/Test.cpp
 HDRS = include/Leaf.h include/Node.h include/PQnode.h include/PQTree.h
 PROJ = pract
 
-CXX = clang++
+#CXX = clang++
 OBJS = $(SRCS:.cpp=.o)
 APP = $(PROJ).exe
-CFLAGS = -g -Wall -std=c++11 -stdlib=libc++
+CFLAGS = -g -Wall -std=c++11
+#-stdlib=libc++
 INCL = -isystem/usr/local/include
 INCLCHK = -I/usr/local/include -I/Users/creisle/GitHub/pq-trees/src/
 LDFLAGS = -L/usr/local/lib -L/Users/creisle/GitHub/pq-trees/
-LIBS = -lcppunit -ldl -lPQTree
+#LIBS = -lcppunit -ldl -lPQTree
 
 all: $(APP)
 

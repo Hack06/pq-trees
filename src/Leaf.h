@@ -3,10 +3,10 @@
 #define __LEAF_H
 
 //warning to ignore
-#pragma GCC diagnostic ignored "-Wpadded"
-#pragma GCC diagnostic ignored "-Wc++11-extensions"
-#pragma GCC diagnostic ignored "-Wc++98-compat"
-#pragma GCC diagnostic ignored "-Wc++98-compat-pedantic"
+//#pragma GCC diagnostic ignored "-Wpadded"
+//#pragma GCC diagnostic ignored "-Wc++11-extensions"
+//#pragma GCC diagnostic ignored "-Wc++98-compat"
+//#pragma GCC diagnostic ignored "-Wc++98-compat-pedantic"
 
 
 //dependencies

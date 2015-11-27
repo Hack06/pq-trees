@@ -97,15 +97,15 @@ std::string Leaf::print_expression(print_option print_mark /*option_none*/)
             }
             break;
         case option_depth:
-            result += std::to_string(depth)+":";;
+            result += to_string(depth)+":";
             break;
         case option_src:
-            result += std::to_string(source)+":";
+            result += to_string(source)+":";
             break;
         default:
             break;
     }
-    result += std::to_string(value);
+    result += to_string(value);
     return result;
 }
 
@@ -124,7 +124,7 @@ std::string Leaf::convert_to_gml(int &id)
 {
     std::string result = Node::convert_to_gml(id);
     result += "label \"";
-    result += std::to_string(value);
+    result += to_string(value);
     result += "\"\n]\n";
     return result;
 }

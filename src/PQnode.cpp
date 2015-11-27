@@ -8,8 +8,8 @@
 
 //warning to ignore
 
-#pragma GCC diagnostic ignored "-Wpadded"
-#pragma GCC diagnostic ignored "-Wc++11-extensions"
+//#pragma GCC diagnostic ignored "-Wpadded"
+//#pragma GCC diagnostic ignored "-Wc++11-extensions"
 
 static bool follow = false;
 static bool debug = false;
@@ -60,7 +60,7 @@ PQnode::~PQnode()
 --builtcount;
     if(!children.empty())
     {
-        auto it = children.begin();
+    	std::list<Node*>::iterator it = children.begin();
         while(it!=children.end())
         {
             Node *curr = *it;
@@ -97,8 +97,8 @@ bool PQnode::less_than(Node& other)
             }
             else
             {
-                auto itt = children.begin();
-                auto ito = (pq->children).begin();
+            	std::list<Node*>::iterator itt = children.begin();
+            	std::list<Node*>::iterator ito = (pq->children).begin();
                 
                 while(itt!=children.end()&&ito!=((pq->children).end())) //same length only need to worry about one really but this is sfe
                 {
@@ -123,7 +123,7 @@ bool PQnode::less_than(Node& other)
 void PQnode::sort()
 {
     //call sort on all the nodes children first?
-    for(auto it=children.begin(); it!=children.end(); ++it)
+    for(std::list<Node*>::iterator it=children.begin(); it!=children.end(); ++it)
     {
         (*it)->sort();
     }
@@ -132,13 +132,13 @@ void PQnode::sort()
     {
         //now sort the children
         bool swapped = true;
-        auto end = children.end();
+        std::list<Node*>::iterator end = children.end();
         
         while(swapped&&end!=children.begin())
         {
             swapped = false;
-            auto prev = children.begin(); //first element
-            auto curr = children.begin(); ++curr; //second element
+            std::list<Node*>::iterator prev = children.begin(); //first element
+            std::list<Node*>::iterator curr = children.begin(); ++curr; //second element
             while(curr!=end)
             {
                 if((*curr)->less_than(**prev))
@@ -366,7 +366,7 @@ void PQnode::unmark()
     }
     node_mark = empty;
     //recurse by children, if they are not empty
-    for(auto it=children.begin(); it!=children.end(); ++it)
+    for(std::list<Node*>::iterator it=children.begin(); it!=children.end(); ++it)
     {
         (*it)->unmark();
     }
@@ -393,7 +393,7 @@ std::string PQnode::print_expression(print_option print_mark/*false*/)
             }
             break;
         case option_depth:
-            result += std::to_string(depth)+":";
+            result += to_string(depth)+":";
             break;
         default:
             break;
@@ -406,7 +406,7 @@ std::string PQnode::print_expression(print_option print_mark/*false*/)
     {
         result += "{";
     }
-    for(auto it=children.begin(); it!=children.end(); ++it)
+    for(std::list<Node*>::iterator it=children.begin(); it!=children.end(); ++it)
     {
         result += " ";
         result += (*it)->print_expression(print_mark);
@@ -468,7 +468,7 @@ bool PQnode::reduce_proot()
     std::list<Node*> full_list; //temporary list to store directed node stuff
     
     sort_children();
-    auto it = children.begin();
+    std::list<Node*>::iterator it = children.begin();
     
     size_t ecount = grab_marks(it, empty, empty_list);
     
@@ -625,7 +625,7 @@ bool PQnode::reduce_qroot()
     
     sort_children(); //will have attempted to flip the node so that e....p...f...p..e
     
-    auto it = children.begin();
+    std::list<Node*>::iterator it = children.begin();
     
     skip_marks(it, empty); //ignore empty children
     
@@ -841,7 +841,7 @@ bool PQnode::qreduce(direction_type dir/*right*/)
     sort_children(); //should put them in e... p... f format
     
     
-    auto it=children.begin();
+    std::list<Node*>::iterator it=children.begin();
     grab_marks(it, empty, empty_list); 
     pcount = grab_marks(it, partial, partials_list); 
     grab_marks(it, full, fulls_list);
@@ -867,18 +867,18 @@ bool PQnode::qreduce(direction_type dir/*right*/)
         
     if(dir==right)
     {
-        for(auto k=empty_list.begin(); k!=empty_list.end(); ++k)
+        for(std::list<Node*>::iterator k=empty_list.begin(); k!=empty_list.end(); ++k)
         {
             link_child(*k);
         }
         if(debug){ cerr << this << " after adding empty children: " << print_expression(option_marking) << endl; }
         
-        for(auto k=partials_list.begin(); k!=partials_list.end(); ++k)
+        for(std::list<Node*>::iterator k=partials_list.begin(); k!=partials_list.end(); ++k)
         {
             link_child(*k);                
         }
         if(debug){ cerr << this << " after adding partial children: " << print_expression(option_marking) << endl; }
-        for(auto k=fulls_list.begin(); k!=fulls_list.end(); ++k)
+        for(std::list<Node*>::iterator k=fulls_list.begin(); k!=fulls_list.end(); ++k)
         {
             link_child(*k);                
         }
@@ -886,17 +886,17 @@ bool PQnode::qreduce(direction_type dir/*right*/)
     }
     else
     {
-        for(auto k=fulls_list.rbegin(); k!=fulls_list.rend(); ++k)
+        for(std::list<Node*>::reverse_iterator k=fulls_list.rbegin(); k!=fulls_list.rend(); ++k)
         {
             link_child(*k);
         }
         if(debug){ cerr << this << " after adding full children: " << print_expression(option_marking) << endl; }
-        for(auto k=partials_list.begin(); k!=partials_list.end(); ++k)
+        for(std::list<Node*>::iterator k=partials_list.begin(); k!=partials_list.end(); ++k)
         {
             link_child(*k);                
         }
         if(debug){ cerr << this << " after adding partial children: " << print_expression(option_marking) << endl; }
-        for(auto k=empty_list.rbegin(); k!=empty_list.rend(); ++k)
+        for(std::list<Node*>::reverse_iterator k=empty_list.rbegin(); k!=empty_list.rend(); ++k)
         {
             link_child(*k);                
         }
@@ -931,7 +931,7 @@ if(follow){ cerr << "PQnode::group_children(std::list<Node*> group)" << builtcou
     {
         PQnode *temp = new PQnode();
         
-        for(auto it = group.begin(); it!=group.end(); ++it)
+        for(std::list<Node*>::iterator it = group.begin(); it!=group.end(); ++it)
         {
             temp->link_child(*it);
         }
@@ -1103,7 +1103,7 @@ bool PQnode::condense_and_replace(Node *child, std::list<int>& source_list)
 
 void custom::print(std::list<int> target)
 {
-    for(auto it = target.begin(); it!=target.end(); ++it)
+    for(std::list<int>::iterator it = target.begin(); it!=target.end(); ++it)
     {
         cout << *it << " ";
     }
@@ -1112,7 +1112,7 @@ void custom::print(std::list<int> target)
 
 void custom::print(std::vector<int> target)
 {
-    for(auto it = target.begin(); it!=target.end(); ++it)
+    for(std::vector<int>::iterator it = target.begin(); it!=target.end(); ++it)
     {
         cout << *it << " ";
     }
@@ -1125,8 +1125,8 @@ void custom::print(std::vector<int> target)
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 bool custom::compare(std::string s1, std::string s2)
 {
-    auto a = s1.begin();
-    auto b = s2.begin();
+	std::string::iterator a = s1.begin();
+	std::string::iterator b = s2.begin();
     while(a!=s1.end())
     {
         if((*a)!=' ') //ignore whitespace in s1
@@ -1169,13 +1169,13 @@ std::string PQnode::convert_to_gml(int &id)
     result += "]\n";
         
     //now call this on the children....
-    for(auto it=children.begin(); it!=children.end(); ++it)
+    for(std::list<Node*>::iterator it=children.begin(); it!=children.end(); ++it)
     {
         //create an edge to id +1 from curr_id
         result += "edge [\nsource ";
-        result += std::to_string(curr_id);
+        result += to_string(curr_id);
         result += "\ntarget ";
-        result += std::to_string(id + 1);
+        result += to_string(id + 1);
         result += "\n]\n";
         result += (*it)->convert_to_gml(id);
     }
