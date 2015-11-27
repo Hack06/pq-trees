@@ -8,7 +8,7 @@ My aim is to be able to use the PQ-Tree algorithm implementation for testing it 
 
 - Eliminated CPPUnit
 - changed "auto" keywords to respective data types
-- added a custom to_string() method since std::to_string()
+- added a custom to_string() method since std::to_string() was not recognized by my version of the compiler
 - some minor modifications in the original makefile (i.e. removed clang++, -stdlib=libc++, and -lcppunit -ldl -lPQTree library line).
 
 ##Notes:
