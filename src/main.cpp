@@ -335,7 +335,7 @@ void testConsectuive() //purpose: tests a consectutive ones matrix example
 	printf("Matrix to check:\n");
 	for(size_t i=0; i<mat.size(); ++i) {
 		int k=1;
-		for(int j=0; j<mat[i].size(); ++j) {
+		for(unsigned int j=0; j<mat[i].size(); ++j) {
 			while (mat[i][j] != k++) {
 				printf("0 ");
 			}
