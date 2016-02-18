@@ -1,72 +1,71 @@
 #include "PQTree.h"
 #include <stdlib.h>
 #include <sstream>
+#include <time.h>
+#include <string>
+#include<sstream>
+using namespace std;
 
+template <typename T>
+string ToString(T val) {
+    stringstream stream;
+    stream << val;
+    return stream.str();
+}
 
-//#pragma GCC diagnostic ignored "-Wc++11-extensions"
-//#pragma GCC diagnostic ignored "-Wpadded"
-
-void testConsectuive() //purpose: tests a consectutive ones matrix example
+void testConsectuive(int n, int m) //purpose: tests a consectutive ones matrix example
 {
 	bool pass = true;
-	std::vector< std::vector<int> > mat =
-	{
-//		{2, 3, 4}, //values that are one in our matrix
-//		{1, 2, 3},
-//		{1, 4, 5},
-//		{2, 3},
-//		{3, 4},
-//		{1},
-//		{5}
-			{1,2},
-			{2,3},
-			{1,3}
-	};
-//	PQTree *tree = new PQTree("{1, 2, 3, 4, 5}");
-//	int setSize = 5;
-	PQTree *tree = new PQTree("{1, 2, 3}");
-	int setSize = 3;
+	int r=0;	//will contain the number of 1s in the random matrix
+	string columns = "{1";
+	for (int i=2; i<=n; ++i) {
+		columns += ", " + ToString(i);
+	}
+	columns += "}";
+	PQTree *tree = new PQTree(columns);
 	
-	for(size_t i=0; i<mat.size(); ++i)
-	{
-		if(!tree->set_consecutive(mat[i]))
-		{
+	std::vector< std::vector<int> > mat;
+	for (int i=0; i<m; ++i) {
+		std::vector<int> currentRow;
+		int start = rand()%n+1;
+		int end = rand()%n+1;
+		if (start > end) {	//swap them
+			int temp = start;
+			start = end;
+			end = temp;
+		}
+		r += end - start + 1;
+		for (int j=start; j<=end; ++j) {
+			currentRow.push_back(j);
+		}
+		mat.push_back(currentRow);
+	}
+
+	//start counting the timer
+	long ms = clock();
+
+	for(size_t i=0; i<mat.size(); ++i) {
+		if(!tree->set_consecutive(mat[i])) {
 			pass = false;
 			break;
 		}
 	}
-	delete tree;
-	
-	//print out the matrix
-	printf("Matrix to check:\n");
-	for(size_t i=0; i<mat.size(); ++i) {
-		int k=1;
-		for(unsigned int j=0; j<mat[i].size(); ++j) {
-			while (mat[i][j] != k++) {
-				printf("0 ");
-			}
-			printf("1 ");
-		}
-		while (k++ <= setSize) {
-			printf("0 ");
-		}
-		printf("\n");
-	}
-	printf("\n");
 
-	//print out the result of the algorithm
-	if (pass) {
-		printf("\nThe matrix has Consecutive-Ones property!\n");
-	} else {
-		printf("\nThe matrix does NOT have Consecutive-Ones property!\n");
-	}
+	//get the elapsed time
+	ms = clock() - ms;
+	printf("%d %d %d %ld\n", n, m, r, ms/(CLOCKS_PER_SEC/1000));
+
+	delete tree;
 	
 }
 
 int main( int argc, char **argv)
 {
-    testConsectuive();
+	printf("n     m     r    t\n");
+	for (int n=100; n<2100; n+=100) {
+		for (int m=100; m<2100; m+=100) {
+			testConsectuive(n,m);
+		}
+	}
     return 0;
 }
-
-
